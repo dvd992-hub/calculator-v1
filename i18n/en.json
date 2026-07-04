@@ -1,0 +1,10 @@
+{
+  "tab_standard": "Standard",
+  "tab_scientific": "Scientific",
+  "tab_history": "History",
+  "history_empty": "No calculations yet",
+  "history_clear": "Clear all",
+  "history_title": "Recent calculations",
+  "lang_toggle": "IT",
+  "error": "Error"
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Purple rounded background -->
+  <rect width="32" height="32" rx="7" fill="#7c3aed"/>
+  <!-- "C" letterform for Calcola -->
+  <text x="16" y="23" font-family="system-ui,sans-serif" font-size="20"
+        font-weight="700" text-anchor="middle" fill="#f3e8ff">C</text>
+</svg>

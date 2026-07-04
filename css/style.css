@@ -1,0 +1,373 @@
+/* ============================================================
+   css/style.css — Scientific Calculator
+   Palette: lavender background, colored buttons, orange hover
+   All colors are hardcoded (no CSS variables) to avoid theme
+   inheritance issues inside embedded iframes or chat widgets.
+   ============================================================ */
+
+/* ── Reset ─────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin:  0;
+  padding: 0;
+}
+
+/* ── Page body ─────────────────────────────────────────────── */
+body {
+  /* Lavender page background */
+  background: #e9d5ff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ── Outer wrapper ─────────────────────────────────────────── */
+.wrap {
+  padding: 2rem 1rem;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ── Main card ─────────────────────────────────────────────── */
+/* Lighter lavender surface with a soft purple shadow */
+.card {
+  background:    #f3e8ff;
+  border-radius: 24px;
+  border:        1px solid #c4b5fd;
+  overflow:      hidden;
+  box-shadow:    0 8px 32px rgba(109, 40, 217, 0.12);
+}
+
+/* ── Top bar (logo + language toggle) ──────────────────────── */
+.topbar {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         16px 18px 0;
+}
+
+.logo {
+  font-size:      14px;
+  font-weight:    700;
+  letter-spacing: 0.1em;
+  color:          #6d28d9;
+}
+
+/* Language toggle button */
+.lang-btn {
+  font-size:     11px;
+  font-weight:   700;
+  padding:       4px 10px;
+  border-radius: 20px;
+  border:        1px solid #c4b5fd;
+  background:    #ede9fe;
+  color:         #6d28d9;
+  cursor:        pointer;
+  font-family:   inherit;
+  letter-spacing: 0.05em;
+  transition:    background 0.15s, color 0.15s;
+}
+.lang-btn:hover {
+  background: #fed7aa;
+  color:      #c2410c;
+  border-color: #fb923c;
+}
+
+/* ── Tab navigation ────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap:     5px;
+  padding: 12px 18px 0;
+}
+
+.tab {
+  font-size:     12px;
+  padding:       5px 14px;
+  border-radius: 20px;
+  border:        1px solid transparent;
+  cursor:        pointer;
+  color:         #7c3aed;
+  background:    transparent;
+  font-family:   inherit;
+  transition:    all 0.15s;
+}
+
+/* Active tab: white pill with violet border */
+.tab.active {
+  background:   #ffffff;
+  border-color: #c4b5fd;
+  color:        #3b0764;
+  font-weight:  600;
+}
+
+/* Inactive tab hover: orange */
+.tab:hover:not(.active) {
+  background: #fed7aa;
+  color:      #c2410c;
+}
+
+/* ── Numeric display ────────────────────────────────────────── */
+.display {
+  margin:          12px 18px 0;
+  border-radius:   16px;
+  padding:         16px 20px;
+  min-height:      88px;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: flex-end;
+  /* Slightly darker lavender for contrast */
+  background: #ede9fe;
+  border:     1px solid #c4b5fd;
+}
+
+/* Secondary row: expression preview ("12 × ...") */
+.display-expr {
+  font-size:  12px;
+  color:      #a78bfa;
+  min-height: 16px;
+  word-break: break-all;
+}
+
+/* Primary row: current numeric value */
+.display-val {
+  font-size:   38px;
+  font-weight: 600;
+  color:       #3b0764;
+  word-break:  break-all;
+  line-height: 1.15;
+}
+
+/* ── Panel wrapper ─────────────────────────────────────────── */
+.panel {
+  padding: 14px 18px 18px;
+}
+
+/* ── Button grids ──────────────────────────────────────────── */
+/* Standard: 4 equal columns */
+.grid-std {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Scientific: 5 equal columns */
+.grid-sci {
+  display:               grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+}
+
+/* ── Base button styles ─────────────────────────────────────── */
+.btn {
+  border-radius: 12px;
+  height:        54px;
+  font-size:     16px;
+  font-weight:   500;
+  cursor:        pointer;
+  border:        none;
+  font-family:   inherit;
+  transition:    transform 0.08s, background 0.12s, color 0.12s;
+}
+
+/* Press animation */
+.btn:active {
+  transform: scale(0.93);
+}
+
+/* ── Digit buttons (white on lavender) ─────────────────────── */
+.btn-num {
+  background: #ffffff;
+  color:      #3b0764;
+  border:     1px solid #ddd6fe;
+}
+.btn-num:hover {
+  background:   #fed7aa;   /* orange hover */
+  color:        #9a3412;
+  border-color: #fb923c;
+}
+
+/* Zero key spans 2 columns */
+.btn-zero {
+  grid-column: span 2;
+}
+
+/* ── Operator buttons (violet) ──────────────────────────────── */
+.btn-op {
+  background: #7c3aed;
+  color:      #ede9fe;
+}
+.btn-op:hover {
+  background: #ea580c;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Equals button (pink / magenta) ────────────────────────── */
+.btn-eq {
+  background: #ec4899;
+  color:      #fff;
+  font-size:  20px;
+}
+.btn-eq:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Clear / AC button (red) ───────────────────────────────── */
+.btn-clear {
+  background: #dc2626;
+  color:      #fff;
+}
+.btn-clear:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Utility buttons (+/−, %) (teal) ──────────────────────── */
+.btn-util {
+  background: #0891b2;
+  color:      #e0f2fe;
+}
+.btn-util:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Scientific function buttons (emerald green) ───────────── */
+.btn-sci {
+  background: #059669;
+  color:      #d1fae5;
+  font-size:  13px;
+}
+.btn-sci:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Math constant buttons (π, e) (amber / gold) ───────────── */
+.btn-const {
+  background: #d97706;
+  color:      #fef3c7;
+  font-size:  13px;
+}
+.btn-const:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── Parenthesis buttons ( and ) (violet, lighter than operators) */
+.btn-paren {
+  background: #a855f7;   /* lighter violet than operators */
+  color:      #faf5ff;
+  font-size:  18px;
+  font-weight: 600;
+}
+.btn-paren:hover {
+  background: #f97316;   /* orange hover */
+  color:      #fff;
+}
+
+/* ── DEG / RAD toggle ──────────────────────────────────────── */
+.sci-header {
+  display:         flex;
+  justify-content: flex-end;
+  margin-bottom:   8px;
+}
+
+.deg-rad {
+  font-size:     11px;
+  background:    #ede9fe;
+  border-radius: 6px;
+  padding:       3px 8px;
+  color:         #7c3aed;
+  cursor:        pointer;
+  border:        1px solid #c4b5fd;
+  font-family:   inherit;
+  font-weight:   600;
+}
+.deg-rad:hover {
+  background:   #fed7aa;
+  color:        #c2410c;
+  border-color: #fb923c;
+}
+
+/* ── History panel ─────────────────────────────────────────── */
+.history {
+  max-height: 240px;
+  overflow-y: auto;   /* scroll when list grows long */
+}
+
+.history-empty {
+  color:      #a78bfa;
+  font-size:  13px;
+  text-align: center;
+  padding:    32px 0;
+}
+
+/* Single history row */
+.hist-item {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     flex-end;
+  padding:         9px 0;
+  border-bottom:   1px solid #ddd6fe;
+  cursor:          pointer;
+  gap:             12px;
+}
+.hist-item:last-child {
+  border-bottom: none;
+}
+/* Hover: result turns orange */
+.hist-item:hover .hist-result {
+  color: #ea580c;
+}
+
+/* Left: expression text (muted) */
+.hist-expr {
+  font-size:  12px;
+  color:      #a78bfa;
+  flex:       1;
+  word-break: break-all;
+}
+
+/* Right: numeric result (prominent) */
+.hist-result {
+  font-size:   15px;
+  font-weight: 600;
+  color:       #3b0764;
+  white-space: nowrap;
+}
+
+/* History header row */
+.hist-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   10px;
+}
+.hist-label {
+  font-size:      11px;
+  color:          #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight:    600;
+}
+.hist-clear {
+  font-size:   11px;
+  color:       #a78bfa;
+  background:  none;
+  border:      none;
+  cursor:      pointer;
+  font-family: inherit;
+}
+.hist-clear:hover {
+  color: #ea580c;
+}
+
+/* ── Responsive: small screens ─────────────────────────────── */
+@media (max-width: 400px) {
+  .display-val { font-size: 28px; }
+  .btn         { height: 46px; font-size: 14px; }
+  .btn-sci     { font-size: 11px; }
+}
