@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific Calculator</title>
+
+  <!-- Favicons: SVG (modern) + ICO (legacy fallback) -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+  <link rel="icon" type="image/x-icon"  href="assets/favicon/favicon.ico" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="card">
+
+      <!-- ── Top bar: logo + language toggle ───────────────── -->
+      <div class="topbar">
+        <span class="logo">CALCOLA ✦</span>
+        <button class="lang-btn" id="lang-btn" onclick="toggleLang()">IT</button>
+      </div>
+
+      <!-- ── Tab navigation ────────────────────────────────── -->
+      <div class="tabs">
+        <button class="tab active" id="tab-std" onclick="switchTab('std', this)"
+                data-i18n="tab_standard">Standard</button>
+        <button class="tab" id="tab-sci" onclick="switchTab('sci', this)"
+                data-i18n="tab_scientific">Scientific</button>
+        <button class="tab" id="tab-hist" onclick="switchTab('hist', this)"
+                data-i18n="tab_history">History</button>
+      </div>
+
+      <!-- ── Numeric display ───────────────────────────────── -->
+      <div class="display">
+        <!-- Top row: ongoing expression (e.g. "12 × ") -->
+        <div class="display-expr" id="expr"></div>
+        <!-- Main value -->
+        <div class="display-val"  id="val">0</div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!--  STANDARD PANEL  (4-column grid)                    -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div id="panel-std" class="panel">
+        <div class="grid-std">
+          <!-- Row 1: utility + first operator -->
+          <button class="btn btn-clear" onclick="clearAll()">AC</button>
+          <button class="btn btn-util"  onclick="toggleSign()">+/−</button>
+          <button class="btn btn-util"  onclick="percent()">%</button>
+          <button class="btn btn-op"    onclick="inputOp('÷')">÷</button>
+
+          <!-- Row 2 -->
+          <button class="btn btn-num"   onclick="inputDigit('7')">7</button>
+          <button class="btn btn-num"   onclick="inputDigit('8')">8</button>
+          <button class="btn btn-num"   onclick="inputDigit('9')">9</button>
+          <button class="btn btn-op"    onclick="inputOp('×')">×</button>
+
+          <!-- Row 3 -->
+          <button class="btn btn-num"   onclick="inputDigit('4')">4</button>
+          <button class="btn btn-num"   onclick="inputDigit('5')">5</button>
+          <button class="btn btn-num"   onclick="inputDigit('6')">6</button>
+          <button class="btn btn-op"    onclick="inputOp('−')">−</button>
+
+          <!-- Row 4 -->
+          <button class="btn btn-num"   onclick="inputDigit('1')">1</button>
+          <button class="btn btn-num"   onclick="inputDigit('2')">2</button>
+          <button class="btn btn-num"   onclick="inputDigit('3')">3</button>
+          <button class="btn btn-op"    onclick="inputOp('+')">+</button>
+
+          <!-- Row 5: 0 spans 2 columns -->
+          <button class="btn btn-num btn-zero" onclick="inputDigit('0')">0</button>
+          <button class="btn btn-num"   onclick="inputDot()">.</button>
+          <button class="btn btn-eq"    onclick="calculate()">=</button>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!--  SCIENTIFIC PANEL  (5-column grid)                  -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div id="panel-sci" class="panel" style="display:none;">
+
+        <!-- DEG / RAD toggle (affects trig functions) -->
+        <div class="sci-header">
+          <button class="deg-rad" id="deg-btn" onclick="toggleDeg()">DEG</button>
+        </div>
+
+        <div class="grid-sci">
+          <!-- Scientific functions (row 1): trig -->
+          <button class="btn btn-sci"   onclick="sciFunc('sin')">sin( )</button>
+          <button class="btn btn-sci"   onclick="sciFunc('cos')">cos( )</button>
+          <button class="btn btn-sci"   onclick="sciFunc('tan')">tan( )</button>
+          <!-- Logarithms -->
+          <button class="btn btn-sci"   onclick="sciFunc('log')">log( )</button>
+          <button class="btn btn-sci"   onclick="sciFunc('ln')">ln( )</button>
+
+          <!-- Row 2: algebra -->
+          <button class="btn btn-sci"   onclick="sciFunc('sqrt')">√( )</button>
+          <button class="btn btn-sci"   onclick="sciFunc('sq')">x²</button>
+          <button class="btn btn-sci"   onclick="sciFunc('cube')">x³</button>
+          <button class="btn btn-sci"   onclick="sciFunc('inv')">1/x</button>
+          <button class="btn btn-sci"   onclick="sciFunc('abs')">|x|</button>
+
+          <!-- Row 3: constants + power + parentheses -->
+          <button class="btn btn-const" onclick="sciFunc('pi')">π</button>
+          <button class="btn btn-const" onclick="sciFunc('e')">e</button>
+          <button class="btn btn-op"    onclick="inputOp('^')">xʸ</button>
+          <!-- Parenthesis buttons: build grouped expressions like (2+3)×4 -->
+          <button class="btn btn-paren" onclick="inputOpenParen()">(</button>
+          <button class="btn btn-paren" onclick="inputCloseParen()">)</button>
+
+          <!-- Digits + operators (same layout as standard) -->
+          <button class="btn btn-num"   onclick="inputDigit('7')">7</button>
+          <button class="btn btn-num"   onclick="inputDigit('8')">8</button>
+          <button class="btn btn-num"   onclick="inputDigit('9')">9</button>
+          <button class="btn btn-op"    onclick="inputOp('÷')">÷</button>
+          <button class="btn btn-op"    onclick="inputOp('×')">×</button>
+
+          <button class="btn btn-num"   onclick="inputDigit('4')">4</button>
+          <button class="btn btn-num"   onclick="inputDigit('5')">5</button>
+          <button class="btn btn-num"   onclick="inputDigit('6')">6</button>
+          <button class="btn btn-op"    onclick="inputOp('−')">−</button>
+          <button class="btn btn-op"    onclick="inputOp('+')">+</button>
+
+          <button class="btn btn-num"   onclick="inputDigit('1')">1</button>
+          <button class="btn btn-num"   onclick="inputDigit('2')">2</button>
+          <button class="btn btn-num"   onclick="inputDigit('3')">3</button>
+          <button class="btn btn-num"   onclick="inputDot()">.</button>
+          <button class="btn btn-eq"    onclick="calculate()">=</button>
+
+          <button class="btn btn-num btn-zero" onclick="inputDigit('0')">0</button>
+          <button class="btn btn-util"  onclick="percent()">%</button>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════ -->
+      <!--  HISTORY PANEL                                       -->
+      <!-- ════════════════════════════════════════════════════ -->
+      <div id="panel-hist" class="panel" style="display:none;">
+        <div class="hist-header">
+          <span class="hist-label" data-i18n="history_title">Recent calculations</span>
+          <button class="hist-clear" onclick="clearHistory()"
+                  data-i18n="history_clear">Clear all</button>
+        </div>
+        <!-- Dynamically populated by renderHistory() in script.js -->
+        <div class="history" id="history-list">
+          <div class="history-empty" data-i18n="history_empty">No calculations yet</div>
+        </div>
+      </div>
+
+    </div><!-- /.card -->
+  </div><!-- /.wrap -->
+
+  <!-- App logic -->
+  <script src="js/i18n.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
